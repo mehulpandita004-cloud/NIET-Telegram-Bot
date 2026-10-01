@@ -29,8 +29,7 @@ TODAYS_SCHEDULE_JSON_FILE = BASE_DIR / "today's_schedule.json"
 WEEKLY_SCHEDULE_JSON_FILE = BASE_DIR / "weekly_schedule.json"
 
 # Cache validity duration: 60 minutes
-CACHE_MAX_AGE_SECONDS = 3600
-
+CACHE_MAX_AGE_SECONDS = 21600
 
 # ==============================================================================
 # DATA LOADERS & CACHE MANAGEMENT

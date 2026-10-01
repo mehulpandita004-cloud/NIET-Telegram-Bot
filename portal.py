@@ -439,10 +439,9 @@ def get_student_attendance(
                 page.goto(PORTAL_ATTENDANCE_URL, wait_until="networkidle", timeout=timeout)
 
             page.wait_for_load_state("networkidle", timeout=15000)
-            page.wait_for_timeout(2000)
 
-            page.screenshot(path=str(screenshot_path), full_page=True)
-            print(f"[+] Attendance screenshot captured at: {screenshot_path}")
+            #page.screenshot(path=str(screenshot_path), full_page=True)
+            #print(f"[+] Attendance screenshot captured at: {screenshot_path}")
 
             print("[*] Extracting attendance data...")
             result = extract_attendance_from_page(page)
@@ -568,7 +567,7 @@ def extract_schedule_from_page(
         if week_tab and week_tab.is_visible():
             print("[*] Clicking 'Weeks' tab to load Monday-Friday timetable...")
             week_tab.click()
-            page.wait_for_timeout(3000)
+           # page.wait_for_timeout(3000)
             page.wait_for_load_state("networkidle")
 
             week_raw = page.evaluate("""() => {
@@ -676,10 +675,10 @@ def get_class_schedule(
 
 
             page.wait_for_load_state("networkidle", timeout=15000)
-            page.wait_for_timeout(2000)
+           #page.wait_for_timeout(2000)
 
-            page.screenshot(path=str(screenshot_path), full_page=True)
-            print(f"[+] Schedule screenshot captured at: {screenshot_path}")
+            p# page.screenshot(path=str(screenshot_path), full_page=True)
+# print(f"[+] Schedule screenshot captured at: {screenshot_path}")
 
             print("[*] Extracting schedule data...")
             schedule_result = extract_schedule_from_page(
@@ -751,10 +750,10 @@ def get_full_portal_data(
                 page.goto(PORTAL_ATTENDANCE_URL, wait_until="networkidle", timeout=timeout)
 
             page.wait_for_load_state("networkidle", timeout=15000)
-            page.wait_for_timeout(2000)
+            #page.wait_for_timeout(2000)
 
             att_screenshot = SCREENSHOTS_DIR / "attendance.png"
-            page.screenshot(path=str(att_screenshot), full_page=True)
+            #page.screenshot(path=str(att_screenshot), full_page=True)
             attendance_data = extract_attendance_from_page(page)
             attendance_data["student_info"] = student_profile
             attendance_data["screenshot_path"] = str(att_screenshot)
@@ -769,8 +768,7 @@ def get_full_portal_data(
             else:
                 page.goto(PORTAL_TIMETABLE_URL, wait_until="networkidle", timeout=timeout)
 
-            page.wait_for_load_state("networkidle", timeout=15000)
-            page.wait_for_timeout(2000)
+            #page.wait_for_timeout(2000)
 
 
             sched_screenshot = SCREENSHOTS_DIR / "schedule_today.png"
