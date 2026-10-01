@@ -566,7 +566,7 @@ def extract_schedule_from_page(
         week_tab = page.locator("#weekTab")
         if week_tab and week_tab.is_visible():
             print("[*] Clicking 'Weeks' tab to load Monday-Friday timetable...")
-            week_tab.click()
+            week_tab.click(force=True)
            # page.wait_for_timeout(3000)
             page.wait_for_load_state("networkidle")
 
