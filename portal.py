@@ -744,7 +744,7 @@ def get_full_portal_data(
             print("[*] Navigating to Attendance section...")
             att_card = page.locator("text=Attendance").first
             if att_card and att_card.is_visible():
-                att_card.click()
+                att_card.click(force=True)
                 page.wait_for_url(lambda u: "studentCourses" in u or "attendance" in u.lower(), timeout=15000)
             else:
                 page.goto(PORTAL_ATTENDANCE_URL, wait_until="networkidle", timeout=timeout)
