@@ -224,9 +224,9 @@ def perform_login(page: Page, college_id: str, college_password: str, timeout: i
         try:
             page.wait_for_url(
                 lambda url: "login.htm" not in url.lower() or "failure=true" in url.lower(),
-                timeout=timeout
+                timeout=10000
             )
-            page.wait_for_load_state("networkidle", timeout=10000)
+            page.wait_for_load_state("domcontentloaded", timeout=5000) 
         except PlaywrightTimeoutError:
             pass
 
@@ -436,9 +436,9 @@ def get_student_attendance(
                 attendance_card.click()
                 page.wait_for_url(lambda u: "studentCourses" in u or "attendance" in u.lower(), timeout=15000)
             else:
-                page.goto(PORTAL_ATTENDANCE_URL, wait_until="networkidle", timeout=timeout)
+                page.goto(PORTAL_LOGIN_URL, wait_until="domcontentloaded", timeout=10000)
 
-            page.wait_for_load_state("networkidle", timeout=15000)
+            page.wait_for_load_state("networkidle", timeout=5000) 
 
             #page.screenshot(path=str(screenshot_path), full_page=True)
             #print(f"[+] Attendance screenshot captured at: {screenshot_path}")

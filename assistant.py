@@ -29,7 +29,8 @@ TODAYS_SCHEDULE_JSON_FILE = BASE_DIR / "today's_schedule.json"
 WEEKLY_SCHEDULE_JSON_FILE = BASE_DIR / "weekly_schedule.json"
 
 # Cache validity duration: 60 minutes
-CACHE_MAX_AGE_SECONDS = 21600
+CACHE_MAX_AGE_SECONDS = 3600
+ 
 
 # ==============================================================================
 # DATA LOADERS & CACHE MANAGEMENT
@@ -67,39 +68,46 @@ def save_json_file(file_path: Path, data: Dict[str, Any]) -> None:
 
 
 def get_attendance_data(force_refresh: bool = False) -> Dict[str, Any]:
-    """Retrieves attendance data from cache or directly from portal if needed."""
-    if not force_refresh and is_cache_valid(ATTENDANCE_JSON_FILE):
-        cached = load_cached_json(ATTENDANCE_JSON_FILE)
-        if cached:
-            return cached
+    """Retrieves attendance from local cache.
+    Background sync keeps the cache updated.
+    """
+    cached = load_cached_json(ATTENDANCE_JSON_FILE)
 
-    # Fetch live from portal
-    print("[*] Fetching latest attendance from NIET Portal...")
+    if cached:
+        return cached
+
+    # Only used if no cache exists at all
+    print("[*] No attendance cache available. Fetching from NIET Portal...")
     data = portal.get_student_attendance()
     save_json_file(ATTENDANCE_JSON_FILE, data)
     return data
 
 
 def get_schedule_data(force_refresh: bool = False, fetch_weekly: bool = True) -> Dict[str, Any]:
-    """Retrieves schedule data from cache or directly from portal if needed."""
-    today_valid = is_cache_valid(TODAYS_SCHEDULE_JSON_FILE)
-    weekly_valid = is_cache_valid(WEEKLY_SCHEDULE_JSON_FILE)
+    """Retrieves schedule from local cache.
+    Background sync keeps the cache updated.
+    """
 
-    if not force_refresh and today_valid and (not fetch_weekly or weekly_valid):
-        today_data = load_cached_json(TODAYS_SCHEDULE_JSON_FILE)
-        weekly_data = load_cached_json(WEEKLY_SCHEDULE_JSON_FILE) if fetch_weekly else None
-        if today_data:
-            return {"today": today_data, "weekly": weekly_data}
+    today_data = load_cached_json(TODAYS_SCHEDULE_JSON_FILE)
+    weekly_data = load_cached_json(WEEKLY_SCHEDULE_JSON_FILE) if fetch_weekly else None
 
-    # Fetch live from portal
-    print("[*] Fetching latest timetable from NIET Portal...")
+    if today_data:
+        return {
+            "today": today_data,
+            "weekly": weekly_data
+        }
+
+    # Only used if no schedule cache exists at all
+    print("[*] No schedule cache available. Fetching from NIET Portal...")
     data = portal.get_class_schedule(fetch_weekly=fetch_weekly)
+
     if "today" in data:
         save_json_file(TODAYS_SCHEDULE_JSON_FILE, data["today"])
+
     if "weekly" in data and data["weekly"]:
         save_json_file(WEEKLY_SCHEDULE_JSON_FILE, data["weekly"])
-    return data
 
+    return data
 
 # ==============================================================================
 # RESPONSE FORMATTERS (WhatsApp & Terminal friendly)

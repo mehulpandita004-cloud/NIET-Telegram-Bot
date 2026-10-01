@@ -42,6 +42,7 @@ from telegram.ext import (
 # Project modules
 import assistant
 import portal
+import sync_service
 
 # Setup Base Paths & Environment
 BASE_DIR = Path(__file__).resolve().parent
@@ -564,9 +565,13 @@ async def post_init_setup(application):
     except Exception as e:
         logger.warning(f"Could not set Telegram bot commands menu: {e}")
 
-    # Launch background morning notification scheduler inside the bot event loop
+    # # Launch background morning notification scheduler inside the bot event loop
     if MORNING_NOTIFICATION_ENABLED:
         application.create_task(morning_scheduler_loop(application.bot))
+
+    # Launch background NIET portal sync service
+    application.create_task(sync_service.sync_loop())
+
 
 def run_bot():
     """Starts the Telegram bot using long polling."""
