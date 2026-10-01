@@ -747,7 +747,7 @@ def get_full_portal_data(
                 att_card.click(force=True)
                 page.wait_for_url(lambda u: "studentCourses" in u or "attendance" in u.lower(), timeout=15000)
             else:
-                page.goto(PORTAL_ATTENDANCE_URL, wait_until="networkidle", timeout=timeout)
+                page.goto(PORTAL_ATTENDANCE_URL, wait_until="domcontentloaded", timeout=timeout)
 
             page.wait_for_load_state("networkidle", timeout=15000)
             #page.wait_for_timeout(2000)
