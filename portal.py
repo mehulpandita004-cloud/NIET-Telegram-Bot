@@ -308,7 +308,8 @@ def extract_attendance_from_page(page: Page) -> Dict[str, Any]:
         const tables = Array.from(document.querySelectorAll('table'));
         const attTable = tables.find(t => {
             const text = (t.innerText || '').toLowerCase();
-            return text.includes('present count') && text.includes('percentage');
+            return text.includes('percentage') &&
+       (text.includes('present') || text.includes('attended'));
         });
 
         if (!attTable) return null;
