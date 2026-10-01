@@ -66,7 +66,7 @@ STATE_FILE = BASE_DIR / "notification_state.json"
 
 # Response Messages
 UNAUTHORIZED_MESSAGE = "Unauthorized user"
-LOADING_MESSAGE = "🔄 Fetching your information from NIET Cloud..."
+LOADING_MESSAGE = "⚡ Got it! Fetching your information..."
 
 # Setup Logging (Terminal only, technical details never sent to user)
 logging.basicConfig(
