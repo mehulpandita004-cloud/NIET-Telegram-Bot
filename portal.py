@@ -192,7 +192,7 @@ def perform_login(page: Page, college_id: str, college_password: str, timeout: i
 
     for idx, user_candidate in enumerate(username_variants):
         print(f"[*] Navigating to login page: {PORTAL_LOGIN_URL}")
-        page.goto(PORTAL_LOGIN_URL, wait_until="networkidle", timeout=timeout)
+        page.goto(PORTAL_LOGIN_URL, wait_until="domcontentloaded", timeout=timeout)
 
         user_sel, user_el = find_first_element(page, FALLBACK_USERNAME_SELECTORS)
         pwd_sel, pwd_el = find_first_element(page, FALLBACK_PASSWORD_SELECTORS)
