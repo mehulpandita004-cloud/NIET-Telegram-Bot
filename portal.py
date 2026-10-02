@@ -743,14 +743,14 @@ def get_full_portal_data(
 
             # 1. Attendance Extraction
             attendance_card = page.locator("text=Attendance").first
-        
+                
             if attendance_card.is_visible():
                 attendance_card.click(force=True)
 
             page.get_by_text("Present Count", exact=False).first.wait_for(
-    state="visible",
-    timeout=30000
-)
+                state="visible",
+                timeout=30000
+                )
 
             att_screenshot = SCREENSHOTS_DIR / "attendance.png"
             #page.screenshot(path=str(att_screenshot), full_page=True)
