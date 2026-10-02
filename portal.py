@@ -745,6 +745,10 @@ def get_full_portal_data(
             print("[*] Navigating to Attendance section...")
             page.goto(PORTAL_ATTENDANCE_URL, wait_until="domcontentloaded", timeout=timeout)
 
+            attendance_tab = page.get_by_text("Attendance", exact=True).last
+            attendance_tab.wait_for(state="visible", timeout=15000)
+            attendance_tab.click(force=True)
+
             page.get_by_text("Present Count", exact=False).first.wait_for(
                 state="visible",
                 timeout=15000
