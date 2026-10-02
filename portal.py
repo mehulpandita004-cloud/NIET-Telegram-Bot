@@ -744,15 +744,12 @@ def get_full_portal_data(
             # 1. Attendance Extraction
             print("[*] Navigating to Attendance section...")
             page.goto(PORTAL_ATTENDANCE_URL, wait_until="domcontentloaded", timeout=timeout)
-
-            attendance_tab = page.get_by_text("Attendance", exact=True).last
-            attendance_tab.wait_for(state="visible", timeout=15000)
-            attendance_tab.click(force=True)
+            page.wait_for_timeout(5000)
 
             page.get_by_text("Present Count", exact=False).first.wait_for(
                 state="visible",
                 timeout=15000
-            )
+            )   
 
             att_screenshot = SCREENSHOTS_DIR / "attendance.png"
             #page.screenshot(path=str(att_screenshot), full_page=True)
