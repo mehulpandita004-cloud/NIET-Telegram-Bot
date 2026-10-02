@@ -744,7 +744,8 @@ def get_full_portal_data(
             # 1. Attendance Extraction
             print("[*] Navigating to Attendance section...")
             page.goto(PORTAL_ATTENDANCE_URL, wait_until="domcontentloaded", timeout=timeout)
-            page.locator("th", has_text="Present Count").first.wait_for(
+
+            page.get_by_text("Present Count", exact=False).first.wait_for(
                 state="visible",
                 timeout=15000
             )
