@@ -743,14 +743,11 @@ def get_full_portal_data(
 
             # 1. Attendance Extraction
             print("[*] Navigating to Attendance section...")
-            att_card = page.locator("text=Attendance").first
-            if att_card and att_card.is_visible():
-                att_card.click(force=True)
-                page.wait_for_load_state("domcontentloaded", timeout=15000)
-                page.goto(PORTAL_ATTENDANCE_URL, wait_until="domcontentloaded", timeout=timeout)
-
-            page.wait_for_load_state("networkidle", timeout=15000)
-            #page.wait_for_timeout(2000)
+            page.goto(PORTAL_ATTENDANCE_URL, wait_until="domcontentloaded", timeout=timeout)
+            page.locator("th", has_text="Present Count").first.wait_for(
+                state="visible",
+                timeout=15000
+            )
 
             att_screenshot = SCREENSHOTS_DIR / "attendance.png"
             #page.screenshot(path=str(att_screenshot), full_page=True)
